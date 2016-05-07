@@ -44,6 +44,13 @@
       }
       return this;
     }
+    Zippy.prototype.first = function first(){
+      return this[0][0];
+    };
+    Zippy.prototype.last = function last(){
+      return this[0][this[0].length-1];
+    };
+    
     Zippy.fn = Zippy.prototype;
    
     return Zippy;
