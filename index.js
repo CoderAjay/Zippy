@@ -54,10 +54,10 @@
       return this;
     }
     Zippy.prototype.first = function first(){
-      return this[0];
+      return new Zippy(this[0]);
     };
     Zippy.prototype.last = function last(){
-      return this[this.length-1];
+      return new Zippy(this[this.length-1]);
     };
     
     Zippy.prototype.click = function click(cb){
@@ -65,7 +65,7 @@
       var self = this;
       function loop(i){
         self[i].onclick = function(event){
-          cb.call(self[i], event ) 
+          cb.call(new Zippy(self[i]), event ) 
         };
       }
 
