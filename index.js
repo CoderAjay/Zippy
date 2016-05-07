@@ -51,6 +51,16 @@
       return this[0][this[0].length-1];
     };
     
+    Zippy.prototype.click = function click(cb){
+      if(!cb || typeof cb !== 'function') return this;
+      for(var i=0; i< this[0].length;i++){
+        this[0][i].onclick = cb;
+      }
+      return this;
+    };
+
+    
+    
     Zippy.fn = Zippy.prototype;
    
     return Zippy;
