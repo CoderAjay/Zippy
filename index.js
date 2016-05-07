@@ -53,9 +53,16 @@
     
     Zippy.prototype.click = function click(cb){
       if(!cb || typeof cb !== 'function') return this;
-      for(var i=0; i< this[0].length;i++){
-        this[0][i].onclick = cb;
+      var self = this;
+      function loop(i){
+        self[0][i].onclick = function(event){
+          cb.call(self[0][i], event ) 
+        };
       }
+
+      for(var i=0;i< this[0].length; i++){
+        loop(i); 
+       }
       return this;
     };
 
