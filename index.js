@@ -4,7 +4,15 @@
   var Zippy = (function(){
     function Zippy(selector){
        if(!(this instanceof Zippy)) return new Zippy(selector);
-       this[0] = document.querySelectorAll(selector);
+       if(selector.nodeType){
+         this[0] = selector;
+         this.length = 1;
+       }else{
+         var arr =  document.querySelectorAll(selector);
+         for(var i=0; i< arr.length; i++){
+           this[i] = arr[i];
+         }
+       }
     }
     Zippy.prototype.toggle = function toggle(className){
      if(className){
@@ -14,53 +22,53 @@
          this.addClass(className);
       }
      }else{
-       for(var i=0; i< this[0].length;i++){
-        (this[0][i].style.display === "none")?
-            (this[0][i].style.display="block"):
-            (this[0][i].style.display="none");
+       for(var i=0; i< this.length;i++){
+        (this[i].style.display === "none")?
+            (this[i].style.display="block"):
+            (this[i].style.display="none");
        }
      }
      return this;
     }
     Zippy.prototype.hasClass = function hasClass(className){
-       var arr =  this[0][0].className.split(' ');
+       var arr =  this[0].className.split(' ');
        return (arr.indexOf(className)!==-1);
     }
     Zippy.prototype.addClass = function addClass(className){
-      for(var i=0; i< this[0].length;i++){
-         var arr =  this[0][i].className.split(' '); 
+      for(var i=0; i< this.length;i++){
+         var arr =  this[i].className.split(' '); 
          if(arr.indexOf(className)!==-1){
              continue;
           }
-          this[0][i].className += ' ' +className;
+          this[i].className += ' ' +className;
       }
       return this;
     }
     Zippy.prototype.removeClass = function removeClass(className){
-      for(var i=0;i< this[0].length;i++){
-      this[0][i].className = this[0][i].className.split(' ').filter(function(cName){
+      for(var i=0;i< this.length;i++){
+      this[i].className = this[i].className.split(' ').filter(function(cName){
                             return (cName !== className);
                           }).join(' ');
       }
       return this;
     }
     Zippy.prototype.first = function first(){
-      return this[0][0];
+      return this[0];
     };
     Zippy.prototype.last = function last(){
-      return this[0][this[0].length-1];
+      return this[this.length-1];
     };
     
     Zippy.prototype.click = function click(cb){
       if(!cb || typeof cb !== 'function') return this;
       var self = this;
       function loop(i){
-        self[0][i].onclick = function(event){
-          cb.call(self[0][i], event ) 
+        self[i].onclick = function(event){
+          cb.call(self[i], event ) 
         };
       }
 
-      for(var i=0;i< this[0].length; i++){
+      for(var i=0;i< this.length; i++){
         loop(i); 
        }
       return this;
